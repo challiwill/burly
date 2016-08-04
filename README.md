@@ -28,10 +28,10 @@ func main() {
     Option2:  "123",
   })
   // returns net/url.URL for 'https://www.myhost.com/a/path?some-param=my-value&some-other-param=123'
-  fmt.Println(myURL) 
+  fmt.Println(myURL)
 }
 ```
 
-### DISCLAIMER: 
+### DISCLAIMER:
 This was more of an experiment and is not very performant. I learned before diving too deep into this that there is a library provided by google that does the bulk of what we wanted already. Probably everyone should use this instead: https://github.com/google/go-querystring.
 
