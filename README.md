@@ -39,6 +39,7 @@ This was more of an experiment and is not very performant. I learned before divi
 
 Primarily we needed a way to mark some parameters to not be encoded in the traditional query safe way. To do this properly this library returns a net/url.URL instead of just handling the Values.
 Some ways in which this library is worse than go-querystring:
+
 1. Currently it does not provide the ability of type safety on param values (I hope to implement this eventually)
 1. Currently it is not as performant (I think)
 
