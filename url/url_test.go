@@ -9,7 +9,7 @@ import (
 
 var _ = Describe("Url", func() {
 	Describe("Parse", func() {
-		Context("when given a valid interface", func() {
+		Context("when given a valid struct", func() {
 			var urlStruct encodedURLStruct
 
 			BeforeEach(func() {
@@ -55,11 +55,19 @@ var _ = Describe("Url", func() {
 			})
 		})
 
-		Context("when not pased a struct", func() {
+		Context("when not given a valid struct", func() {
+			It("returns an appropriate error", func() {
+				_, err := url.Parse(invalidStruct{thing: false})
+				Expect(err).To(HaveOccurred())
+				Expect(err.Error()).To(ContainSubstring("to be strings"))
+			})
+		})
+
+		Context("when not given a struct", func() {
 			It("returns an appropriate error", func() {
 				_, err := url.Parse("this is not a struct")
 				Expect(err).To(HaveOccurred())
-				Expect(err.Error()).To(ContainSubstring("must be a struct"))
+				Expect(err.Error()).To(ContainSubstring("to be a struct"))
 			})
 		})
 	})
@@ -79,4 +87,8 @@ type unencodedURLStruct struct {
 	thing2 string `url:"path"`
 	thing3 string `url:"firstparam" encode:"false"`
 	thing4 string `url:"secondparam"`
+}
+
+type invalidStruct struct {
+	thing bool `url:"protocol"`
 }
