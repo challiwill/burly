@@ -31,24 +31,28 @@ func Parse(urlStruct interface{}) (*url.URL, error) {
 		switch comp {
 		case "":
 			// ignore
+
 		case "protocol":
 			p := val.FieldByName(field.Name)
 			if p.Kind() != reflect.String {
 				// return error
 			}
 			protocol = string(p.String())
+
 		case "domain":
 			d := val.FieldByName(field.Name)
 			if d.Kind() != reflect.String {
 				// return error
 			}
 			domain = string(d.String())
+
 		case "path":
 			p := val.FieldByName(field.Name)
 			if p.Kind() != reflect.String {
 				// return error
 			}
 			path = p.String()
+
 		default:
 			p := val.FieldByName(field.Name)
 			if p.Kind() != reflect.String {
@@ -57,7 +61,12 @@ func Parse(urlStruct interface{}) (*url.URL, error) {
 			if params != "" {
 				params += "&"
 			}
-			params += comp + "=" + url.QueryEscape(p.String())
+			pStr := p.String()
+			encode := field.Tag.Get("encode")
+			if encode != "false" {
+				pStr = url.QueryEscape(pStr)
+			}
+			params += comp + "=" + pStr
 		}
 	}
 
