@@ -1,6 +1,7 @@
 package url
 
 import (
+	"fmt"
 	"net/url"
 	"reflect"
 	"strings"
@@ -16,7 +17,7 @@ func Parse(urlStruct interface{}) (*url.URL, error) {
 
 	typ := reflect.ValueOf(urlStruct).Type()
 	if typ.Kind() != reflect.Struct {
-		// return error
+		return nil, fmt.Errorf("interface must be a struct, you passed in a %s: %#v", typ.Kind(), urlStruct)
 	}
 
 	val := reflect.Indirect(reflect.ValueOf(urlStruct))
