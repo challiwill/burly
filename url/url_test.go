@@ -23,18 +23,21 @@ var _ = Describe("Url", func() {
 					thing0: "https",
 					thing1: "mydomain.com",
 					thing2: "my/special/path",
-					thing3: "one-value",
+					thing3: "one/value",
 					thing4: "two-value",
 				}
 
-				expectedURL, err = neturl.Parse("https://mydomain.com/my/special/path?firstparam=one-value&secondparam=two-value")
+				expectedURL, err = neturl.Parse("https://mydomain.com/my/special/path?firstparam=one%2Fvalue&secondparam=two-value")
 				Expect(err).NotTo(HaveOccurred())
 			})
 
 			It("returns a properly constructed net/url.URL struct", func() {
 				actualURL, err := url.Parse(urlStruct)
+				Expect(actualURL.Scheme).To(Equal(expectedURL.Scheme))
 				Expect(err).NotTo(HaveOccurred())
-				Expect(*actualURL).To(Equal(*expectedURL))
+				Expect(actualURL.Host).To(Equal(expectedURL.Host))
+				Expect(actualURL.Path).To(Equal(expectedURL.Path))
+				Expect(actualURL.RawQuery).To(Equal(expectedURL.RawQuery))
 			})
 		})
 
@@ -43,9 +46,9 @@ var _ = Describe("Url", func() {
 
 // thing1/thing2?firstparam=thing3&secondparam=thing4
 type testURLStruct struct {
-	thing0 string `comp:"protocol"`
-	thing1 string `comp:"domain"`
-	thing2 string `comp:"path"`
-	thing3 string `comp:"firstparam"`
-	thing4 string `comp:"secondparam"`
+	thing0 string `url:"protocol"`
+	thing1 string `url:"domain"`
+	thing2 string `url:"path"`
+	thing3 string `url:"firstparam"`
+	thing4 string `url:"secondparam"`
 }

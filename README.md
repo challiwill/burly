@@ -12,11 +12,11 @@ import (
 )
 
 type URLStruct struct {
-  Protocol string `comp:"protocol"`
-  Host string `comp:"domain"`
-  Path string `comp:"path"`
-  Option1 string `comp:"some-param"`
-  Option2 string `comp:"some-other-param"`
+  Protocol string `url:"protocol"`
+  Host string `url:"domain"`
+  Path string `url:"path"`
+  Option1 string `url:"some-param"`
+  Option2 string `url:"some-other-param"`
 }
 
 func main() {

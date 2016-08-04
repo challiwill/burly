@@ -27,7 +27,7 @@ func Parse(urlStruct interface{}) (*url.URL, error) {
 			// return error
 		}
 
-		comp = field.Tag.Get("comp")
+		comp = field.Tag.Get("url")
 		switch comp {
 		case "":
 			// ignore
@@ -57,7 +57,7 @@ func Parse(urlStruct interface{}) (*url.URL, error) {
 			if params != "" {
 				params += "&"
 			}
-			params += comp + "=" + p.String()
+			params += comp + "=" + url.QueryEscape(p.String())
 		}
 	}
 
