@@ -1,6 +1,8 @@
 package url_test
 
 import (
+	"reflect"
+
 	"github.com/challiwill/burly/url"
 
 	. "github.com/onsi/ginkgo"
@@ -59,7 +61,10 @@ var _ = Describe("Url", func() {
 			It("returns an appropriate error", func() {
 				_, err := url.Parse(invalidStruct{thing: false})
 				Expect(err).To(HaveOccurred())
-				Expect(err.Error()).To(ContainSubstring("to be strings"))
+				Expect(err).To(Equal(url.FieldError{
+					Kind: reflect.Bool,
+					Name: "thing",
+				}))
 			})
 		})
 
@@ -67,7 +72,10 @@ var _ = Describe("Url", func() {
 			It("returns an appropriate error", func() {
 				_, err := url.Parse("this is not a struct")
 				Expect(err).To(HaveOccurred())
-				Expect(err.Error()).To(ContainSubstring("to be a struct"))
+				Expect(err).To(Equal(url.ArgumentError{
+					Kind:  reflect.String,
+					Value: interface{}("this is not a struct"),
+				}))
 			})
 		})
 	})

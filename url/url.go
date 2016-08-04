@@ -1,7 +1,6 @@
 package url
 
 import (
-	"fmt"
 	"net/url"
 	"reflect"
 	"strings"
@@ -17,7 +16,7 @@ func Parse(urlStruct interface{}) (*url.URL, error) {
 
 	typ := reflect.ValueOf(urlStruct).Type()
 	if typ.Kind() != reflect.Struct {
-		return nil, fmt.Errorf("I need my argument of type interface{} to be a struct - you gave me a %s '%#v'", typ.Kind(), urlStruct)
+		return nil, NewArgumentError(typ.Kind(), urlStruct)
 	}
 
 	val := reflect.Indirect(reflect.ValueOf(urlStruct))
@@ -25,7 +24,7 @@ func Parse(urlStruct interface{}) (*url.URL, error) {
 	for i := 0; i < typ.NumField(); i++ {
 		field = typ.Field(i)
 		if field.Type.Kind() != reflect.String {
-			return nil, fmt.Errorf("I need all the fields in my argument to be strings - you gave me a struct with a field '%s' which is a %s", field.Name, field.Type.Kind())
+			return nil, NewFieldError(field.Type.Kind(), field.Name)
 		}
 
 		comp = field.Tag.Get("url")
