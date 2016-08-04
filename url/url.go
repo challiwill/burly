@@ -70,15 +70,12 @@ func Parse(urlStruct interface{}) (*url.URL, error) {
 		}
 	}
 
-	query := protocol + "://" + domain
-	if path != "" {
-		query += makeSafePath(path)
-	}
-	if params != "" {
-		query += "?" + params
-	}
-
-	return url.Parse(query)
+	return &url.URL{
+		Scheme:   protocol,
+		Host:     domain,
+		Path:     makeSafePath(path),
+		RawQuery: params,
+	}, nil
 }
 
 func makeSafePath(path string) string {
