@@ -27,7 +27,7 @@ func main() {
     Option1:  "my/value",
     Option2:  "other-value",
   })
-  // returns net/url.URL for 'https://www.myhost.com/a/path?some-param=my/value&some-other-param=other%2Fvalue'
+  // returns URL for 'https://www.myhost.com/a/path?some-param=my/value&some-other-param=other%2Fvalue'
   fmt.Println(myURL)
 }
 ```
